@@ -4,6 +4,7 @@ const
 	handlebars = require('express-handlebars').create({ defaultLayout: 'main' }),
 	{ weatherToken } = require('./config.js'),
 	fortunes = require('./lib/fortune.js'),
+	moment = require('moment'),
 	requests = require('./lib/requests.js'),
 	port = 3000;
 ;
@@ -11,13 +12,13 @@ const
 let ip, items = {
 	currency: { name: 'United States Dollars', symbol: '$' },
 	entries: [
-		{ name: 'Old TV', desc: 'Epic old TV bruv man', pid: 1000 },
-		{ name: 'Mac SE', desc: '1980\'s era Macintosh', pid: 1001 },
-		{ name: 'Mattress', desc: 'twin size mattress', pid: 1002 },
-		{ name: 'iPhone 6 Plus', desc: 'Perfect condition iPhone 6 plus running iOS 9.1.2', price: 120, pid: 2000 },
-		{ name: 'JavaScript Programming Book', desc: 'O\'Riley ES5 programming book', price: 15, pid: 2001 },
-		{ name: 'nVIDIA GeForce RTX 2080ti', desc: 'lightly used graphics card, never abused', price: 650, pid: 2002 },
-		{ name: 'Custom built PC', desc: 'Ryzen 3 1200, GTX 1060 3GB, 16GB Vengeance LPX DDR4 Memory', price: 500, pid: 2003 }
+		{ name: 'Old TV', desc: 'Epic old TV bruv man', added: '2020-05-23T01:57:41-05:00', pid: 1000 },
+		{ name: 'Mac SE', desc: '1980\'s era Macintosh', added: '2020-04-23T01:57:41-05:00', pid: 1001 },
+		{ name: 'Mattress', desc: 'twin size mattress', added: '2020-05-20T01:57:41-05:00', pid: 1002 },
+		{ name: 'iPhone 6 Plus', desc: 'Perfect condition iPhone 6 plus running iOS 9.1.2', added: '2020-05-19T02:37:41-05:00', price: 120, pid: 2000 },
+		{ name: 'JavaScript Programming Book', desc: 'O\'Riley ES5 programming book', added: '2020-05-10T23:00:12-05:00',  price: 15, pid: 2001 },
+		{ name: 'nVIDIA GeForce RTX 2080ti', desc: 'lightly used graphics card, never abused', added: '2020-01-10T23:00:12-05:00', price: 650, pid: 2002 },
+		{ name: 'Custom built PC', desc: 'Ryzen 3 1200, GTX 1060 3GB, 16GB Vengeance LPX DDR4 Memory', added: '2020-04-24T23:00:12-05:00', price: 500, pid: 2003 }
 	]
 };
 
@@ -45,7 +46,12 @@ app.get('/about', (req, res) => {
 	res.render('about', { li: generateText(), para: "foo bar paragraph", pageTestScript: '/qa/tests-about.js' });
 });
 
-app.get('/items', (req, res) => { res.render('items', items) });
+app.get('/items', (req, res) => {
+	res.render('items', items);
+	items.entries.forEach((e) => {
+		console.log(moment(e.added).fromNow());
+	});
+});
 
 app.get('/items/:pid', (req, res) => {
 	let item = items.entries.find(({ pid }) => pid == req.params.pid );

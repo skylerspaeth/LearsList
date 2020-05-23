@@ -1,15 +1,15 @@
-<h2>Listings</h2>
+<h3>Listings</h3>
 <div class="card-deck">
         {{#each entries}}
 		{{! backend only hidden comments}}
-		<div class="card" style="width: 18rem;">
-			<img class="card-img-top img-fluid" src="https://picsum.photos/300/200" alt="Card image cap">
+		<div class="card">
+			<img class="card-img-top img-fluid" src="/userimgres/{{pid}}/0.jpg" alt="Card image cap">
 			<div class="card-body">
 				<h5 class="card-title"><strong>{{name}}</strong></h5>
 				<p class="card-text">{{desc}}</p>
 			</div>
 			<div class="card-footer">
-				<small class="text-muted">Posted 3 mins ago (ID: {{pid}})</small>
+				<small class="text-muted">Posted {{timeSince}} mins ago (ID: {{pid}})</small>
 			</div>
 		</div>        
 		 <!--<a style="all: inherit;" href="/items/{{pid}}">{{name}} - {{#if price}} {{../currency.symbol}}{{price}} {{else}} Free {{/if}} - {{desc}}</a>-->
